@@ -191,7 +191,7 @@ float3 applyToneMapping(float3 color, uint2 pixelPosition)
 void main(uint2 threadId : SV_DispatchThreadID)
 {
   float3 inputColor = imageLoad(InColorBuffer, threadId).xyz;
-  inputColor *= 2.0f;
+  inputColor *= 6.0f;
   float3 outputColor = reinhardToneMapper(inputColor, 1.0f);
 
   // clamp outputColor to avoid problems with NIS
