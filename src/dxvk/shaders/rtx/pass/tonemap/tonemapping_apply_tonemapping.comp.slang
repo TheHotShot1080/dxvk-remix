@@ -80,7 +80,7 @@ float3 reinhardToneMapper(float3 inputColor)
   
   // (Not Reinhard Operator) Make the curve S-shaped to boost shadow contrast
   // Should only activate when outputLuminance < e^gToneMappingShadowContrastEnd
-  outputLuminance *= pow(min(1.0f, outputLuminance * exp(-cb.shadowContrastEnd)), cb.shadowContrast);
+  //outputLuminance *= pow(min(1.0f, outputLuminance * exp(-cb.shadowContrastEnd)), cb.shadowContrast);
   
   // Apply output luminance to the input
   return inputColor * (outputLuminance / inputLuminance);  
