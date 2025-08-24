@@ -193,7 +193,7 @@ void main(uint2 threadId : SV_DispatchThreadID)
   float3 inputColor = imageLoad(InColorBuffer, threadId).xyz;
   inputColor *= getExposure(InExposure, cb.enableAutoExposure, cb.exposureFactor);
   float3 outputColor = reinhardToneMapper(inputColor, 1.0f);
-  outputColor = linearToGamma(color);
+  outputColor = linearToGamma(outputColor);
 
   // clamp outputColor to avoid problems with NIS
   outputColor = saturate(outputColor);
