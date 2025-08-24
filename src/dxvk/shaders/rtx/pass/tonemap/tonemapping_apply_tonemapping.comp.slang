@@ -193,7 +193,8 @@ void main(uint2 threadId : SV_DispatchThreadID)
 {
   float3 inputColor = imageLoad(InColorBuffer, threadId).xyz;
 
-  float3 outputColor = applyToneMapping(inputColor, threadId);
+  // float3 outputColor = applyToneMapping(inputColor, threadId);
+  float3 outputColor = reinhardToneMapper(inputColor);
 
   // clamp outputColor to avoid problems with NIS
   outputColor = saturate(outputColor);
