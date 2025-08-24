@@ -191,8 +191,9 @@ float3 applyToneMapping(float3 color, uint2 pixelPosition)
 void main(uint2 threadId : SV_DispatchThreadID)
 {
   float3 inputColor = imageLoad(InColorBuffer, threadId).xyz;
-  inputColor *= 6.0f;
+  inputColor *= getExposure(InExposure, cb.enableAutoExposure, cb.exposureFactor);
   float3 outputColor = reinhardToneMapper(inputColor, 1.0f);
+  outputColor = linearToGamma(color);
 
   // clamp outputColor to avoid problems with NIS
   outputColor = saturate(outputColor);
