@@ -77,8 +77,10 @@ float3 reinhardToneMapper(float3 inputColor, float white)
 
   float outputLuminance = inputLuminance * (1.0f + (inputLuminance / (white * white)));
   outputLuminance = inputLuminance / (1.0f + inputLuminance);
+  float outputColor = inputColor * (outputLuminance / inputLuminance);
 
-  return inputColor * (outputLuminance / inputLuminance);  
+  // desaturate hightlights
+  return mix(outputColor, outputLuminance, outputLuminance);  
 }
 
 // Heji and Burgess-Dawson tone curve, from
