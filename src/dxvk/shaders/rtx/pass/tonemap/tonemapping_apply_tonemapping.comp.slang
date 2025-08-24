@@ -73,14 +73,16 @@ float3 colorGrading(float3 inputColor)
 // http://www.cs.utah.edu/~reinhard/cdrom/tonemap.pdf
 float3 reinhardToneMapper(float3 inputColor, float white) 
 {
-  float inputLuminance = calcBt709Luminance(inputColor);
+  // float inputLuminance = calcBt709Luminance(inputColor);
 
-  float outputLuminance = inputLuminance * (1.0f + (inputLuminance / (white * white)));
-  outputLuminance = inputLuminance / (1.0f + inputLuminance);
-  float outputColor = inputColor * (outputLuminance / inputLuminance);
+  // float outputLuminance = inputLuminance * (1.0f + (inputLuminance / (white * white)));
+  // outputLuminance = inputLuminance / (1.0f + inputLuminance);
 
-  // desaturate hightlights
-  return mix(outputColor, outputLuminance, outputLuminance);  
+  // return inputColor * (outputLuminance / inputLuminance);  
+
+  inputColor = inputColor * (1.0f + (inputColor / (white * white)));
+  inputColor = inputColor / (1.0f + inputColor);
+  return inputColor;
 }
 
 // Heji and Burgess-Dawson tone curve, from
