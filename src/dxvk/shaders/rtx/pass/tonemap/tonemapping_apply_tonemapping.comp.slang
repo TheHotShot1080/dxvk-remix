@@ -73,16 +73,16 @@ float3 colorGrading(float3 inputColor)
 // http://www.cs.utah.edu/~reinhard/cdrom/tonemap.pdf
 float3 reinhardToneMapper(float3 inputColor, float white) 
 {
-  // float inputLuminance = calcBt709Luminance(inputColor);
+  // per luminance reinhard
+  float inputLuminance = calcBt709Luminance(inputColor);
+  float outputLuminance = inputLuminance * (1.0f + (inputLuminance / (white * white)));
+  outputLuminance = inputLuminance / (1.0f + inputLuminance);
+  return inputColor * (outputLuminance / inputLuminance); 
 
-  // float outputLuminance = inputLuminance * (1.0f + (inputLuminance / (white * white)));
-  // outputLuminance = inputLuminance / (1.0f + inputLuminance);
-
-  // return inputColor * (outputLuminance / inputLuminance);  
-
-  inputColor = inputColor * (1.0f + (inputColor / (white * white)));
-  inputColor = inputColor / (1.0f + inputColor);
-  return inputColor;
+  // per channel reinhard
+  // inputColor = inputColor * (1.0f + (inputColor / (white * white)));
+  // inputColor = inputColor / (1.0f + inputColor);
+  // return inputColor;
 }
 
 // Heji and Burgess-Dawson tone curve, from
@@ -192,7 +192,7 @@ void main(uint2 threadId : SV_DispatchThreadID)
 {
   float3 inputColor = imageLoad(InColorBuffer, threadId).xyz;
   inputColor *= getExposure(InExposure, cb.enableAutoExposure, cb.exposureFactor);
-  float3 outputColor = reinhardToneMapper(inputColor, 1.0f);
+  float3 outputColor = reinhardToneMapper(inputColor, 2.0f);
   outputColor = linearToGamma(outputColor);
 
   // clamp outputColor to avoid problems with NIS
